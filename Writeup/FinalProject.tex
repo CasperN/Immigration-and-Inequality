@@ -1,0 +1,304 @@
+\documentclass[10pt]{article}
+\oddsidemargin -.2in
+\evensidemargin -.2in
+\topmargin -.2in
+\textwidth 6.9in
+\textheight 8.7in
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{latexsym, amssymb, bbm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\usepackage{float}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{cla}[thm]{Claim}
+\newtheorem{con}[thm]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem*{defn}{Definition}
+\newtheorem{example}[thm]{Example}
+\newtheorem{axiom}{Axiom}
+\newtheorem*{note}{Note}
+\newtheorem*{question}{Question}
+
+\theoremstyle{remark}
+\newtheorem{case}{Case}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% EDIT HERE %$%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\name}{Casper Neo}
+\newcommand{\classname}{Introduction to Econometrics: Honors}
+\newcommand{\classnumber}{ECON 209}
+\newcommand{\due}{15 March 2017}
+\newcommand{\num}{}
+\newcommand{\type}{Immigration and Inequality}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\lhead{\name}
+\chead{\classnumber\space\space-\space\type\space\num}
+\rhead{\due}
+
+%-------------------------------------------------------
+
+
+%-------------------------------------------------------
+
+\newcommand{\lecture}[1]{\centerline{\fbox{\textbf{#1}}}}
+\newcommand{\que}[2] {\vspace{.25in} \fbox{#1} #2 \vspace{.10in}}
+\renewcommand{\part}[1] {\vspace{.10in} {\bf (#1)}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% SHORTCUTS FOR BLACKBOARD BOLD
+\def\C{\mathbb{C}}
+\def\N{\mathbb{N}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\Z{\mathbb{Z}}
+\def\1{\mathbb{1}}
+\def\P{\mathbb{P}}
+\def\0{\emptyset}
+
+% SHORTCUTS FOR MATH BOLD FONT
+\def\ba{\mathbf{a}}
+\def\bb{\mathbf{b}}
+\def\be{\mathbf{e}}
+\def\bf{\mathbf{f}}
+\def\bh{\mathbf{h}}
+\def\bu{\mathbf{u}}
+\def\bv{\mathbf{v}}
+\def\bx{\mathbf{x}}
+\def\by{\mathbf{y}}
+\def\bz{\mathbf{z}}
+\def\bzero{\mathbf{0}}
+\def\bone{\mathbf{1}}
+
+% SHORTCUTS FOR GREEK LETTERS
+\def\a{\alpha}
+\def\b{\beta}
+\def\g{\gamma}
+\def\G{\Gamma}
+\def\d{\delta}
+\def\D{\Delta}
+\def\e{\varepsilon}
+\def\k{\kappa}
+\def\l{\lambda}
+\def\m{\mu}
+\def\r{\rho}
+\def\s{\sigma}
+\def\t{\tau}
+\def\th{\theta}
+\def\x{\xi}
+\def\vp{\varphi}
+\def\n{\nabla}
+\def\w{\omega}
+\def\z{\zeta}
+\def\vp{\varphi}
+\def\p{\phi}
+\def\Ph{\Phi}
+\def\L{\Lambda}
+\def\Si{\Sigma}
+\def\Th{\Theta}
+\def\O{\Omega}
+
+\def\el{\ell}
+
+% SHORTCUTS FOR MATH SCRIPT
+\def\sR{\mathscr{R}}
+\def\sA{\mathscr{A}}
+\def\sC{\mathscr{C}}
+\def\sM{\mathscr{M}}
+\def\sF{\mathscr{F}}
+\def\sB{\mathscr{B}}
+\def\sL{\mathscr{L}}
+
+% SHORTCUTS FOR MATH CAPITALS
+\def\A{\mathcal{A}}
+\def\cC{\mathcal{C}}
+\def\cE{\mathcal{E}}
+\def\cF{\mathcal{F}}
+\def\cH{\mathcal{H}}
+\def\cL{\mathcal{L}}
+\def\cM{\mathcal{M}}
+\def\cP{\mathcal{P}}
+\def\cU{\mathcal{U}}
+
+
+\def\i{^{-1}}
+\newcommand{\fin}{f^{-1}}
+\def\lp{\mathop{\rm lp}}
+\def\slp{\mathop{\rm slp}}
+\def\ext{\mathop{\rm ext}}
+\def\sep{\mathop{\rm sep}}
+\def\rel{\mathop{\rm rel}}
+\def\lub{\mathop{\rm lub}}
+\def\glb{\mathop{\rm glb}}
+
+\def\ds{\displaystyle}
+
+\newcommand{\lpvar}[1]{\,\textrm{lp}_{#1}\,}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\fl}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\cl}[2]{\left\lceil \frac{#1}{#2} \right\rceil}
+\newcommand{\md}[1]{(\text{mod } #1)}
+\newcommand{\cs}[1]{\begin{case} #1 \end{case}}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\set}[1]{\{ #1 \}}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+
+\newcommand{\upint}[2]{
+  \overline{\int_{#1}^{#2}}
+}
+\newcommand{\loint}[2]{
+  \underline{\int_{#1}^{#2}}
+}
+
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator*{\E}{\mathbb{E}}
+\DeclareMathOperator*{\pr}{\mathbb{P}}
+
+\newenvironment{piecewise}{\left\lbrace
+\begin{matrix}}
+{
+\end{matrix}
+\right.
+}
+
+\def\defeq{\stackrel{\tt{\tiny def}}=}
+
+\def\la{\langle}
+\def\ra{\rangle}
+
+\def\ben{\begin{enumerate}}
+\def\een{\end{enumerate}}
+
+\def\ptl{\partial}
+\newcommand{\pd}[2]{\frac{\ptl#1}{\ptl #2}}
+
+\def\tt{\text}
+\def\tb{\textbf}
+\def\pipe{|}
+\def\Sin{\tt{sin}}
+\def\^{\wedge}
+\def\del{\nabla}
+\def\iid{\stackrel{iid}\sim}
+
+% SHORTCUTS FOR LIMITS
+\def\ltx{\lim_{t\to x}}
+\def\lxp{\lim_{x\to p}}
+\def\lxa{\lim_{x\to a}}
+\def\lni{\lim_{n\to\infty}}
+\def\lsni{\limsup_{n\to\infty}}
+\def\lxi{\lim_{x\to\infty}}
+\def\lxz{\lim_{x\to0}}
+\def\lhz{\lim_{h\to0}}
+\def\ltz{\lim_{t\to0}}
+
+% SHORTCUTS FOR SUMMATIONS
+\def\sion{\sum_{i=1}^n}
+\def\sjon{\sum_{j=1}^n}
+\def\sjom{\sum_{j=1}^m}
+\def\snoi{\sum_{n=1}^\infty}
+\def\sioi{\sum_{i=1}^\infty}
+\def\snzi{\sum_{n=0}^\infty}
+\def\snzN{\sum_{n=0}^N}
+\def\skoi{\sum_{k=1}^\infty}
+\def\siok{\sum_{i=1}^k}
+\def\skon{\sum_{k=1}^n}
+\def\skzn{\sum_{k=0}^n}
+\def\pion{\prod_{i=1}^n}
+
+% SHORTCUTS FOR INTEGRALS
+\def\ipp{\int_{-\pi}^\pi}
+\def\iii{\int_{-\infty}^{\infty}}
+\def\izp{\int_0^\pi}
+\def\iztp{\int_0^{2\pi}}
+\def\izr{\int_0^r}
+\def\izo{\int_0^1}
+\def\ioi{\int_1^\infty}
+\def\iab{\int_a^b}
+\def\izi{\int_0^\infty}
+\def\riea{\sR(\a)}
+\newcommand{\eval}[2]{\Big\vert_{#1}^{#2}}
+
+% SHORTCUTS FOR ENVIRONMENTS
+\newcommand{\al}[1]{\begin{align*}#1\end{align*}}
+\newcommand{\aleq}[1]{\begin{equation}\begin{aligned}[b]#1\end{aligned}\end{equation}}
+\newcommand{\bigb}[1]{\bigg(#1\bigg)}
+\newcommand{\prf}[1]{\begin{proof}#1\end{proof}\vspace{3mm}}
+\newcommand{\bmtx}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\enum}[2]{\begin{enumerate}[#1]#2\end{enumerate}}
+\newcommand{\pwise}[1]{\begin{piecewise}#1\end{piecewise}}
+\newcommand{\inm}[1]{\norm{#1}_2}
+\newcommand{\enviro}[2]{\begin{#1}#2\end{#1}}
+\newcommand{\tabler}[2]{\begin{center}\begin{tabular}{#1}#2\end{tabular}\end{center}}
+
+\newcommand{\seq}[2]{\{#1_#2\}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%--------------------------------------------------------------
+\title{
+	\vspace{-20mm}
+    \classnumber\\
+	\classname\\
+    \type \space \num\\
+}
+\author{
+	\name
+}
+\date{
+	\due\\
+}
+
+\maketitle
+%--------------------------------------------------------------
+
+Data from 'https://www.census.gov/programs-surveys/acs/data/pums.html'
+
+\section{Introduction}
+
+\section{Contents}
+
+\section{Original Paper}
+
+\section{Data Overview}
+
+\section{Multiple Testing Concerns and Selective Inference}
+
+\section{Elasticity of Substitution}
+
+\section{Linear Wage Model}
+
+
+%------------------------------------------------------------------------------------------------------------
+\end{document}

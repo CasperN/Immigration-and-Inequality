@@ -1,0 +1,14 @@
+# ignore data files
+Data/
+
+# Ignore OSX finder file thingy
+.DS_Store
+
+# Latex Vomit
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+* lof
+*.lot
+*.toc

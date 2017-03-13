@@ -268,7 +268,7 @@
 \begin{document}
 %--------------------------------------------------------------
 \title{
-	\vspace{-20mm}
+	\vspace{-0mm}
     \classnumber\\
 	\classname\\
     \type \space \num\\
@@ -283,22 +283,72 @@
 \maketitle
 %--------------------------------------------------------------
 
-Data from 'https://www.census.gov/programs-surveys/acs/data/pums.html'
-
 \section{Introduction}
 
-\section{Contents}
+This article is my final project in ECON 209: Honors Econometrics.
+It is a partial replication and extension of David Card's
+\textit{Immigration and Inequality}. Like in Card's paper, I estimate the
+elasticity of substitution between education and income groups using a
+constant elasticity of substitution (CES) model and linear regression. I also
+attempt to estimate log-wages with a linear model and produce coverage intervals
+for the coefficients. Selective inference and multiple testing corrections will
+be applied to bound the false discovery rate and false coverage rates
+in the respective models.
+
+
+\renewcommand{\baselinestretch}{0.75}\normalsize
+\tableofcontents
+\renewcommand{\baselinestretch}{1.0}\normalsize
 
 \section{Original Paper}
 
 \section{Data Overview}
 
+Data from `https://www.census.gov/programs-surveys/acs/data/pums.html'.
+
+I download the 1-year ACS surveys from 2007-2015 however only few columns
+are used. I identified the following variables as relevant from the
+\textit{PUMS Data Dictionary 2011-2015}. I map these variables from the
+values in the raw data into units usable by my models.
+
+
+\begin{table}
+    \caption{Data Used }
+    \vspace{5mm}
+    \label{}
+    \centering
+    \begin{tabular}{| l | l |}
+        \hline
+        Variable Key    & Description \\
+        \hline \hline
+
+        WAGP            & Wages or salary income past 12 months \\
+        CIT             & Citizenship status \\
+        NATIVITY        & Native or Foreign Born \\
+        AGEP            & Age \\
+        SCHL            & Years of Schooling \\
+        ESR             & Employment Status Recode \\
+        DECADE          & Decade of entry into the United States \\
+        ST              & State \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
 \section{Multiple Testing Concerns and Selective Inference}
 
 \section{Elasticity of Substitution}
 
-\section{Linear Wage Model}
+\section{Log-Linear Wage Model}
 
+\section{Conclusion}
+
+\section{Appendix: My code}
+
+Github link: https://github.com/CasperN/Immigration-and-Inequality.git
+
+\listoffigures
+\listoftables
 
 %------------------------------------------------------------------------------------------------------------
 \end{document}

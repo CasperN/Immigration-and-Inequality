@@ -52,3 +52,6 @@ if __name__ == '__main__':
         df = pd.concat(dfs)
         print('writing results')
         df.to_csv(sys.argv[1])
+        rs = df.sample(10000,random_state= 1234)
+        print('writing random sample')
+        rs.to_csv('Sample.csv')

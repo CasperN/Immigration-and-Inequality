@@ -30,10 +30,10 @@ mv *.zip* zips
 echo
 echo Using Python to clean data and moving csvs
 
-python3 ../cleanData.py ACSdata.csv
+python3 ../cleanData.py ACSdata
 mkdir csvs
 mv *.csv csvs
-mv csvs/ACSdata.csv .
-
+mv csvs/ACSdataTrain.csv .
+mv csvs/ACSdataTest.csv .
 echo
 echo Done!

@@ -291,9 +291,9 @@ It is a partial replication and extension of David Card's
 elasticity of substitution between education and income groups using a constant
 elasticity of substitution (CES) model and linear regression. I also attempt to
 estimate log-wages with a linear model and produce coverage intervals for the
-coefficients. Selective inference and multiple testing corrections will be
-applied to bound the false discovery rate and false coverage rates in the
-respective models.
+coefficients. Special attention on selective inference and multiple testing
+corrections will be applied to bound the false discovery rate and false coverage
+rates in the respective models.
 
 
 \renewcommand{\baselinestretch}{0.75}\normalsize
@@ -336,10 +336,9 @@ are used. I identified the following variables as relevant from the
 \textit{PUMS Data Dictionary 2011-2015}. I map these variables from the
 values in the raw data into units usable by my models.
 Between the 8 year there are 27'725'196 observations.
-The procedure and models are developed on 10'000 random rows then run
-on the remaining rows. This is to ensure the hypothesis I choose (a function
-of the data I develop the procedure from) is independent of the data I use to
-validate the hypothesis (with p-values and confidence intervals).
+Though after I filter for working age (18-60) there are 15'553'882 rows.
+The procedure and models are developed a random 1\% sample then run
+on the remaining 99\%.
 
 
 \begin{table}[H]
@@ -367,7 +366,48 @@ validate the hypothesis (with p-values and confidence intervals).
 
 \section{Multiple Testing Concerns and Selective Inference}
 
+When the same dataset is used to generate hypothesis as the dataset used to
+test the hypothesis, researchers run into a multiple testing problem where, while
+generating their model, they  mentally filter out models that seem not to fit the
+data and in the end use models that fit well. It is then little surprise that the
+models chosen have a strong fit to the data. Since both the question and the
+answer to the question are functions of (and so are dependent on) the same data,
+knowing the question reveals information about the answer; i.e. the hypothesis
+and the resulting p-values or confidence intervals are not independent. The
+simplest resolution to this is to use different data to generate the hypothesis
+and to test the hypothesis. Hence, while I am using more recent data than David
+Card, whose hypothesis I test, I write my procedure using a random partition of
+my data and run tests on the rest.
+
+I apply the Benjamini Hochberg False Discovery Rate (BH-FDR) control
+algorithm to bound the false discovery rate when studying the elasticity of
+substitution between groups. This has been shown [CITATION] to work when the
+test statistics are independent or exhibit positive regression dependancy. Since
+I am comparing the elasticity of substitution between groups. This assumption
+is probably valid. If education changes the elasticity of substitution for
+natives, intuitively it should do so for immigrants as well due to similar
+effects on marginal productivity.
+
+
 \section{Elasticity of Substitution}
+
+Assuming a 1 sector framework with a Constant Elasticity of Substitution (CES)
+model
+
+\begin{equation}
+    y = [\a_J L_{J^\r} + \a_K L_{K^\r}]^{\frac 1\r}
+\end{equation}
+
+Where $J$ and $K$ are separate groups (for example high school educational
+equivalents and college equivalents), $\r = 1-\frac1\s$ and $\s$ is the
+between group elasticity of substitution. This is estimated by
+the linear model
+
+\begin{equation}
+    \log \frac{w_j}{w_k} = \log\frac{\a_j}{\a_k} - \frac 1\s \log\frac{L_j}{L_k}
+\end{equation}
+
+Where we observe
 
 \section{Log-Linear Wage Model}
 

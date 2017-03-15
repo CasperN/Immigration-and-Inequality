@@ -268,7 +268,7 @@
 \begin{document}
 %--------------------------------------------------------------
 \title{
-	\vspace{-10mm}
+	\vspace{-20mm}
     \classnumber\\
 	\classname\\
     \type \space \num\\
@@ -308,7 +308,10 @@ rates.
 American Economic Review. It explores the relationship between immigration
 status, education, and wages. Card uses the 1980-2000 Census data combined with
 the 2005-2006 American Community Survey data. In contrast I use the 2007-2015
-American Community Survey. Card explores his hypothesis with time series and
+American Community Survey.
+He also restricts his data to the 124 largest metropolitan areas while I use all
+all areas in the country.
+Card explores his hypothesis with time series and
 panel data as well. I select from his paper the following hypothesis to
 test and replicate.
 
@@ -327,7 +330,9 @@ As a main criticism which I will attempt to address is the fact that Card explor
 multiple hypothesis and does not address the fact that potentially many more hypothesis
 were considered (implicitly or otherwise) but not included in his paper. For example
 he may have checked the elasticity of substitution between immigrants and natives,
-grouped by race, geography or decade of entry.
+grouped by race, geography or decade of entry. I only look at similar hypothesis
+within the space of education and immigration, however the multiple testing
+procedure will be valid if more variables are added too.
 
 \section{Data Overview}
 
@@ -377,8 +382,8 @@ models chosen have a strong fit to the data. Since both the question and the
 answer to the question are functions of (and so are dependent on) the same data,
 knowing the question reveals information about the answer; i.e. the hypothesis
 and the resulting p-values or confidence intervals are not independent. The
-simplest resolution to this is to use different data to generate the hypothesis
-and to test the hypothesis. Hence, while I am using more recent data than David
+simplest resolution to this is to use different data between generating hypothesis
+and testing. Hence, while I am using more recent data than David
 Card, whose hypothesis I test, I write my procedure using a random partition of
 my data and run tests on the rest.
 
@@ -474,7 +479,7 @@ substitution split along the following lines;
 25 more hypothesis splitting across education while fixing citizenship
 and 25 more hypothesis splitting across citizenship while fixing education.
 I choose these 60 hypothesis since they seem the most natural. Their corresponding
-data are generated algorithmically and are listed in Section 8. 
+data are generated algorithmically and are listed in Section 8.
 
 With a set of 3 education levels there are 7 ways to include education levels
 in groups. Analogously for citizenship levels. Hence there are 49 potential groups.
@@ -494,34 +499,59 @@ and find 33 nulls were rejected while 27 were not. A surprising number of nulls
 where rejected however this is more to do with the dependance between the
 overlapping hypothesis.
 
+\begin{figure}[H]
+    \centering
+    \caption{Slope Parameter}
+    \includegraphics[width=.5\textwidth]{slopeFinal.png}
+
+    \label{slo}
+\end{figure}
+
+
+
+
 Of the 33 rejections, we find 26 of them are considered gross substitutes while
 7 of them are considered compliments. Interestingly, since I generated the
 hypothesis automatically we a kind of structure in the hypothesis space.
 Odd numbered hypothesis are comparing citizenship level groups
 (immigrant vs born citizen or non-citizen vs citizen) while holding level of
-education constant. For hypothesis $H^{37},H^{39},H^{41},H^{43}$ which correspond
+education constant.
+
+Unlike Card's first conclusion that those with below high school education are
+perfect substitutes, I do not find that result. All of my observations of
+$\b_1$ lay close to 1.
+
+For hypothesis $H^{37},H^{39},H^{41},H^{43}$ which correspond
 to Card's conclusion; that within education groups, immigrants and natives
 are imperfect substitutes with a large but finite elasticity of substitution;
 we fail to reject the null hypothesis that that $\s=1$.
 
+The differences between Card's and my results probably result from a combination
+of different data 1980-2005 versus 2007-2015, and the fact that I do not limit
+my analysis to the 124 largest metropolitan area.
+Also I find the R-squared values of the linear models to be incredibly weak.
 
-
-
-\begin{figure}[H]
+\begin{table}[H]
+    \caption{R-Squared Values}
+    \label{rs}
     \centering
-    \caption{Slope Parameter}
-    \includegraphics[width=.7\textwidth]{slopeFinal.png}
-
-    \label{slo}
-\end{figure}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Min. & 1st Qu. &  Median &   Mean & 3rd Qu.  &  Max. \\
+        \hline
+        0.02518  &0.04105 &0.04935 &0.05473 &0.06089 &0.11060 \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \begin{figure}[H]
     \centering
     \caption{Elasticity of Substitution}
-    \includegraphics[width=.7\textwidth]{elasticityFinal.png}
+    \includegraphics[width=.5\textwidth]{elasticityFinal.png}
 
     \label{est}
 \end{figure}
+
 
 
 

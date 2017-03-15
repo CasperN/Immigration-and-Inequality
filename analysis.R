@@ -5,6 +5,7 @@ b1s = c()
 ses = c()
 dofs = c()
 tstats = c()
+rss = c()
 for(i in 1:60){
   filename = paste('Data/hypothesis/h',i,'.csv',sep='')
   d = read.csv(filename)
@@ -21,6 +22,7 @@ for(i in 1:60){
   ses = c(ses,se)
   dofs = c(dofs,dof)
   tstats = c(tstats,tstat)
+  rss = c(rss,summary(l)$r.squared)
 }
 
 ### Run Benjamini Hochberg Procedure

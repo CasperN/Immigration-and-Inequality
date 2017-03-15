@@ -381,13 +381,30 @@ my data and run tests on the rest.
 
 I apply the Benjamini Hochberg False Discovery Rate (BH-FDR) control
 algorithm to bound the false discovery rate when studying the elasticity of
-substitution between groups. This has been shown [CITATION] to work when the
+substitution between groups. This has been shown  to work when the
 test statistics are independent or exhibit positive regression dependancy. Since
 I am comparing the elasticity of substitution between groups. This assumption
 is probably valid. If education changes the elasticity of substitution for
 natives, intuitively it should do so for immigrants as well due to similar
 effects on marginal productivity.
 
+Let $n$ be the number of p-values, and $\a$ the false discovery rate
+you want to guarantee. The algorithm is to first find $k^*$ such that
+$$k^* = \max\{k :\text{at least }k\text{ p-values } < \a\frac kn\}$$
+Then reject the $k^*$ smallest p-values. By adjusting the threshold
+with $k$, the procedure accounts for both many weak signals and few strong
+signals. The procedure also comes with a simple process for constructing confidence
+intervals such that false coverage rate is controlled. Simply construct
+$(1-\a\frac{k^*}n)$ confidence intervals.
+
+The advantage of this procedure over the well known Bonferroni correction is
+power at the cost of flexibility. The Bonferroni procedure does not assume anything
+about the distribution or correlation of p-values however it is too conservative
+and only the stongest of signals will reject a null hypothesis. The BH-DFR
+procedure takes advantage of positive dependance and also rejects null hypothesis
+when there are many weak signals. However a drawback is that while
+expected proportion of discoveries that are false is bounded, the variance of
+the proportion grows with positive correlation.
 
 \section{Estimating Elasticity of Substitution Between Groups}
 
@@ -402,8 +419,12 @@ Where $J$ and $K$ are separate groups (for example high school educational
 equivalents and college equivalents), $\r = 1-\frac1\s$ and $\s$ is the
 between group elasticity of substitution.
 $L$ is the labor input, estimated by $1-$ the unemployment rate within the group.
-This is estimated by
-the linear model
+Observe when $\r = 1$, $\s = \infty$ and we have perfect substitutes. As
+$\r\to\-\infty$ we have $\s \to 1$ which means every percent change in group $J$'s
+labor input should correspond to a percent change in group $K$'s labor input.
+That is, they are perfect complements. As a null hypothesis for arbitrary groups
+I will assume they are perfect substitutes and $\s = \infty$.
+This production function may be estimated by the the linear model
 
 \begin{equation}
     \log \frac{w_j}{w_k} = \log\frac{\a_j}{\a_k} - \frac 1\s \log\frac{L_j}{L_k}
@@ -433,9 +454,9 @@ substitution split along the following lines;
     \item less than college educated vs college educated.
 \end{enumerate}
 
-fifteen more hypothesis splitting across education while fixing citizenship
-and twelve more hypothesis splitting across citizenship while fixing education.
-I choose these 37 hypothesis since they seem the most natural to me.
+25 more hypothesis splitting across education while fixing citizenship
+and 25 more hypothesis splitting across citizenship while fixing education.
+I choose these 60 hypothesis since they seem the most natural.
 
 With a set of 3 education levels there are 7 ways to include education levels
 in groups. Analogously for citizenship levels. Hence there are 49 potential groups.
@@ -444,9 +465,11 @@ $${(2^3-1) * (2^3-1) \choose 2} = {49\choose 2} = 1176$$
 ways to split the data
 of varying degrees of reasonability. The combinatoric explosion gets exponentially
 worse if I also chose to include race, decade of entry, geography, or any other
-potential categories.
+potential categories. As null hypothesis, I suppose that all groups exhibit
+perfect substitutability.
 
-\section{Conclusion}
+
+\section{Conclusion and Results}
 
 \section{Appendix: My code}
 
@@ -457,8 +480,149 @@ Note \textit{cleanData.py} should be in the same directory when this happens.
 This will automatically download and clean the data as I use it, and randomly
 split the data into a set for hypothesis generation and another for testing.
 
+\textit{generateHypothesis.py} will read either the training or testing data
+then process the data into simple $x$s and $y$s to be compared in a simple
+linear model. These data are saved in a \textit{hypothesis/} directory.
+\textit{analysis.R} reads the hypothesis and performs the multiple testing
+corrections.
+
 \listoffigures
 \listoftables
+\begin{thebibliography}
+\small
+    \bibitem{C} Card, David. 2009. "Immigration and Inequality." American Economic Review, 99(2): 1-21. http://www.aeaweb.org/articles?id=10.1257/aer.99.2.1
+
+    \bibitem{B} Benjamini, Yoav; Yekutieli, Daniel. The control of the false discovery rate in multiple testing under dependency. Ann. Statist. 29 (2001), no. 4, 1165--1188. doi:10.1214/aos/1013699998. http://projecteuclid.org/euclid.aos/1013699998.
+\end{thebibliography}
+
+
+
+\section{Appendix: 60 Plausible sounding null hypothesis}
+
+\setlength{\parskip}{0em}
+
+\tiny{
+H1: For below high school workers, the elasticity of substitution between non-citzens and naturalized citizens is $\infty$
+
+H2: For non-citizen workers, the elasticity of substitution between below high school and high school equivalent education is $\infty$
+
+H3: For high school equivalent workers, the elasticity of substitution between non-citzens and naturalized citizens is $\infty$
+
+H4: For naturalized citizen workers, the elasticity of substitution between below high school and high school equivalent education is $\infty$
+
+H5: For college equivalent workers, the elasticity of substitution between non-citzens and naturalized citizens is $\infty$
+
+H6: For born citizen workers, the elasticity of substitution between below high school and high school equivalent education is $\infty$
+
+H7: For below college workers, the elasticity of substitution between non-citzens and naturalized citizens is $\infty$
+
+H8: For immigrant workers, the elasticity of substitution between below high school and high school equivalent education is $\infty$
+
+H9: For high school or more workers, the elasticity of substitution between non-citzens and naturalized citizens is $\infty$
+
+H10: For all citizen workers, the elasticity of substitution between below high school and high school equivalent education is $\infty$
+
+H11: For all workers, the elasticity of substitution between non-citzens and naturalized citizens is $\infty$
+
+H12: For all workers, the elasticity of substitution between below high school and high school equivalent education is $\infty$
+
+H13: For below high school workers, the elasticity of substitution between non-citizens and born citizens is $\infty$
+
+H14: For non-citizen workers, the elasticity of substitution between below high school and college equivalent is $\infty$
+
+H15: For high school equivalent workers, the elasticity of substitution between non-citizens and born citizens is $\infty$
+
+H16: For naturalized citizen workers, the elasticity of substitution between below high school and college equivalent is $\infty$
+
+H17: For college equivalent workers, the elasticity of substitution between non-citizens and born citizens is $\infty$
+
+H18: For born citizen workers, the elasticity of substitution between below high school and college equivalent is $\infty$
+
+H19: For below college workers, the elasticity of substitution between non-citizens and born citizens is $\infty$
+
+H20: For immigrant workers, the elasticity of substitution between below high school and college equivalent is $\infty$
+
+H21: For high school or more workers, the elasticity of substitution between non-citizens and born citizens is $\infty$
+
+H22: For all citizen workers, the elasticity of substitution between below high school and college equivalent is $\infty$
+
+H23: For all workers, the elasticity of substitution between non-citizens and born citizens is $\infty$
+
+H24: For all workers, the elasticity of substitution between below high school and college equivalent is $\infty$
+
+H25: For below high school workers, the elasticity of substitution between naturalized and born citizens is $\infty$
+
+H26: For non-citizen workers, the elasticity of substitution between high school equivalent and college equivalent education is $\infty$
+
+H27: For high school equivalent workers, the elasticity of substitution between naturalized and born citizens is $\infty$
+
+H28: For naturalized citizen workers, the elasticity of substitution between high school equivalent and college equivalent education is $\infty$
+
+H29: For college equivalent workers, the elasticity of substitution between naturalized and born citizens is $\infty$
+
+H30: For born citizen workers, the elasticity of substitution between high school equivalent and college equivalent education is $\infty$
+
+H31: For below college workers, the elasticity of substitution between naturalized and born citizens is $\infty$
+
+H32: For immigrant workers, the elasticity of substitution between high school equivalent and college equivalent education is $\infty$
+
+H33: For high school or more workers, the elasticity of substitution between naturalized and born citizens is $\infty$
+
+H34: For all citizen workers, the elasticity of substitution between high school equivalent and college equivalent education is $\infty$
+
+H35: For all workers, the elasticity of substitution between naturalized and born citizens is $\infty$
+
+H36: For all workers, the elasticity of substitution between high school equivalent and college equivalent education is $\infty$
+
+H37: For below high school workers, the elasticity of substitution between immigrants and born citizens is $\infty$
+
+H38: For non-citizen workers, the elasticity of substitution between below college and college equivalent education is $\infty$
+
+H39: For high school equivalent workers, the elasticity of substitution between immigrants and born citizens is $\infty$
+
+H40: For naturalized citizen workers, the elasticity of substitution between below college and college equivalent education is $\infty$
+
+H41: For college equivalent workers, the elasticity of substitution between immigrants and born citizens is $\infty$
+
+H42: For born citizen workers, the elasticity of substitution between below college and college equivalent education is $\infty$
+
+H43: For below college workers, the elasticity of substitution between immigrants and born citizens is $\infty$
+
+H44: For immigrant workers, the elasticity of substitution between below college and college equivalent education is $\infty$
+
+H45: For high school or more workers, the elasticity of substitution between immigrants and born citizens is $\infty$
+
+H46: For all citizen workers, the elasticity of substitution between below college and college equivalent education is $\infty$
+
+H47: For all workers, the elasticity of substitution between immigrants and born citizens is $\infty$
+
+H48: For all workers, the elasticity of substitution between below college and college equivalent education is $\infty$
+
+H49: For below high school workers, the elasticity of substitution between non-citizens and citizens is $\infty$
+
+H50: For non-citizen workers, the elasticity of substitution between below and above high school education is $\infty$
+
+H51: For high school equivalent workers, the elasticity of substitution between non-citizens and citizens is $\infty$
+
+H52: For naturalized citizen workers, the elasticity of substitution between below and above high school education is $\infty$
+
+H53: For college equivalent workers, the elasticity of substitution between non-citizens and citizens is $\infty$
+
+H54: For born citizen workers, the elasticity of substitution between below and above high school education is $\infty$
+
+H55: For below college workers, the elasticity of substitution between non-citizens and citizens is $\infty$
+
+H56: For immigrant workers, the elasticity of substitution between below and above high school education is $\infty$
+
+H57: For high school or more workers, the elasticity of substitution between non-citizens and citizens is $\infty$
+
+H58: For all citizen workers, the elasticity of substitution between below and above high school education is $\infty$
+
+H59: For all workers, the elasticity of substitution between non-citizens and citizens is $\infty$
+
+H60: For all workers, the elasticity of substitution between below and at or above high school education is $\infty$
+}
+
 
 %------------------------------------------------------------------------------------------------------------
 \end{document}

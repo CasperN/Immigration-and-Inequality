@@ -96,14 +96,13 @@ def nameHypothesis(splitOver,holdingConstant,education):
          (1,2)  :'immigrant',
          (2,3)  :'all citizen',
          (1,2,3):'all'}
-        vary = { ((1,), (2,)) : 'below high school and high school equivalent education',
+        vary = { ((1,), (2,)) : 'below high school and high school equivalent educated',
                  ((1,), (3,)) : 'below high school and college equivalent',
-                 ((2,), (3,)) : 'high school equivalent and college equivalent education',
-                 ((1,2),(3,)) : 'below college and college equivalent education',
-                 ((1,), (2,3)): 'below and above high school education'
+                 ((2,), (3,)) : 'high school equivalent and college equivalent educated',
+                 ((1,2),(3,)) : 'below college and college equivalent educated',
+                 ((1,), (2,3)): 'below and at high school educated'
                   }
-    h = 'For '+const[holdingConstant] + ' workers, the elasticity of '+ \
-    'substitution between '+vary[splitOver]+' is 1'
+    h = 'For '+const[holdingConstant] + ' workers, '+vary[splitOver]+' are perfect substitutes'
     return h
 
 def twoGroupLinearData(df,idx):
@@ -136,11 +135,11 @@ def write_for_R(g,i,cat,hyp):
         if r != None:
             res.append(r)
     res = pd.DataFrame(res, columns = ['ys','xs'])
-    res.to_csv('hypothesis/h'+ str(i) + '.csv')
+    res.to_csv('hypothesis/h'+ str(i+1) + '.csv')
     print(hyp)
 
-def generateHypothesisAndData():
-    data = pd.read_csv('Data/ACSdataTrain.csv')
+def generateHypothesisAndData(datafile):
+    data = pd.read_csv(datafile)
     g = data.groupby(['YEAR','PUMA'])
     params = it.product(splitOverGen(),holdingConstantGen(),(True,False))
     args = [(g, i, buildCategorizer(*x), nameHypothesis(*x))
@@ -149,22 +148,12 @@ def generateHypothesisAndData():
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        #print('Usage:\ncd Data/ Then write\npython3 ../generateHypothesis.py [datafile]')
-        data = pd.read_csv('Data/ACSdataTrain.csv')
-        g = data.groupby(['YEAR','PUMA'])
-        cats = [buildCategorizer(*x) for x in it.product(splitOverGen(),holdingConstantGen(),(True,False))]
-        hyps = [nameHypothesis(*x) for x in it.product(splitOverGen(),holdingConstantGen(),(True,False))]
-        for i,cat in enumerate(cats[:4]):
-            hyp = hyps[i]
-            print(hyp)
-            res = []
-            for a,df in g:
-                idx = df.iloc[:,:].apply(cat,axis = 1)
-                r = twoGroupLinearData(df,idx)
-                if r != None:
-                    res.append(r)
-            res = pd.DataFrame(res, columns = ['ys','xs'])
-            res.to_csv('hypothesis/' + 'h' + str(i) + '.csv')
+        print('Usage:\ncd Data/ Then write\npython3 ../generateHypothesis.py [datafile]')
     else:
         #go(sys.argv[1])
-        generateHypothesisAndData()
+        with open('hypothesis.txt','w') as f:
+            params = it.product(splitOverGen(),holdingConstantGen(),(True,False))
+            hyps = [nameHypothesis(*x) for x in params]
+            for i,h in enumerate(hyps):
+                f.write('H'+str(i+1)+': '+h+'\n')
+        generateHypothesisAndData(sys.argv[1])

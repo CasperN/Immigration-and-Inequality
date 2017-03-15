@@ -39,12 +39,12 @@ def extractColumns(filename,year):
     df.drop('ESR',axis=1, inplace=True)
     # remap CIT so 1: non citizen, 2: naturalized citizen, 3: born citizen
     cit_map = {1:3, 2:3, 3:3, 4:2, 5:1} # See data dict
-    df['CIT'].replace(cit_map)
+    df['CIT'] = df['CIT'].replace(cit_map)
     # remap SCHL so 1: less than HS educ, 2: HS equiv, 3: College educ
     schl_map =      {i:1 for i in range(1, 16)}     # < hs educs
     schl_map.update({i:2 for i in range(16,20)}) # hs equiv
     schl_map.update({i:3 for i in range(20,25)}) # college educ
-    df['SCHL'].replace(schl_map)
+    df['SCHL'] = df['SCHL'].replace(schl_map)
     return df
 
 def get_dataframes():

@@ -268,7 +268,7 @@
 \begin{document}
 %--------------------------------------------------------------
 \title{
-	\vspace{-00mm}
+	\vspace{-10mm}
     \classnumber\\
 	\classname\\
     \type \space \num\\
@@ -295,10 +295,13 @@ corrections will be applied to bound the false discovery rate and false coverage
 rates.
 
 
-\renewcommand{\baselinestretch}{0.75}\normalsize
+\renewcommand{\baselinestretch}{0.9}\normalsize
 \tableofcontents
+\listoffigures
+\listoftables
 \renewcommand{\baselinestretch}{1.0}\normalsize
 
+\pagebreak
 \section{Original Paper}
 
 \textit{Immigration and Inequality} by David Card was published in 2009 in the
@@ -317,7 +320,7 @@ test and replicate.
     substitutes with an elasticity of substitution between 1.5-2.5;
 
     \item Within education groups, immigrants and natives are imperfect
-    substitutes with an elasticity of substitution on the order of 20
+    substitutes.
 \end{enumerate}
 
 As a main criticism which I will attempt to address is the fact that Card explores
@@ -419,7 +422,18 @@ Where $J$ and $K$ are separate groups (for example high school educational
 equivalents and college equivalents), $\r = 1-\frac1\s$ and $\s$ is the
 between group elasticity of substitution.
 $L$ is the labor input, estimated by $1-$ the unemployment rate within the group.
-Observe when $\r = 1$, $\s = \infty$ and we have perfect substitutes. As
+Observe as $\r\to 1$, $\s \to \infty$, a percent change in group $J$'s labor
+input corresponds to infinite change in group $K$'s labor input. That is, they
+are perfect substitutes.
+When $\r\to-\infty$, $\s \to 0$ which means every percent change in group $J$'s
+labor input should correspond to a percent change in group $K$'s labor input.
+That is, they are perfect complements.
+When $\r = 0$, $\s = 1$ we reach the threshold at which if $\r \downarrow$
+then $\s\downarrow$ and we have complements, and if $\r\uparrow$ then $\s \uparrow$
+and we have substitutes. As a null hypothesis I assume $\s=1$ so we may test
+if the groups are substitutes or complements.
+
+ $\r = 1$, $\s = \infty$ and we have perfect substitutes. As
 $\r\to\-\infty$ we have $\s \to 1$ which means every percent change in group $J$'s
 labor input should correspond to a percent change in group $K$'s labor input.
 That is, they are perfect complements. As a null hypothesis for arbitrary groups
@@ -437,11 +451,14 @@ considered immigrants). We can also distinguish years of education, which state
 and even public use micro-data area code (By the census definition).
 The latter designate areas of 100'000 or more population.
 Each data point in the CES model is over one micro-data area in one year.
+If one of the groups is empty (which is possible given a large number of public
+micro-data areas, years, and categories) a divide by zero error will be reached.
+I throw out such data points and any $x,y$ pairs with infinite values.
 Given the granularity of my data there are many potential hypothesis attempting
 to find the elasticity of
 substitution split along the following lines;
 
-\begin{enumerate}
+\begin{itemize}
     \item Immigrant vs native
     \item Non-citizen vs citizen
     \item Non-citizen vs naturalized citizen
@@ -452,11 +469,12 @@ substitution split along the following lines;
     \item less than high school educated vs at least high school educated
     \item high school educated vs college educated
     \item less than college educated vs college educated.
-\end{enumerate}
+\end{itemize}
 
 25 more hypothesis splitting across education while fixing citizenship
 and 25 more hypothesis splitting across citizenship while fixing education.
-I choose these 60 hypothesis since they seem the most natural.
+I choose these 60 hypothesis since they seem the most natural. Their corresponding
+data are generated algorithmically and are listed in Section 8. 
 
 With a set of 3 education levels there are 7 ways to include education levels
 in groups. Analogously for citizenship levels. Hence there are 49 potential groups.
@@ -465,11 +483,47 @@ $${(2^3-1) * (2^3-1) \choose 2} = {49\choose 2} = 1176$$
 ways to split the data
 of varying degrees of reasonability. The combinatoric explosion gets exponentially
 worse if I also chose to include race, decade of entry, geography, or any other
-potential categories. As null hypothesis, I suppose that all groups exhibit
-perfect substitutability.
+potential categories.
 
 
 \section{Conclusion and Results}
+
+After running, for every hypothesis;$H^1,...,H^{60}$; a two sided $T-$test testing
+the null $H_0^i:\b^{H^i}_1 = 1$ we get 60 p values. We run the $BH-FDR$ procedure
+and find 33 nulls were rejected while 27 were not. A surprising number of nulls
+where rejected however this is more to do with the dependance between the
+overlapping hypothesis.
+
+Of the 33 rejections, we find 26 of them are considered gross substitutes while
+7 of them are considered compliments. Interestingly, since I generated the
+hypothesis automatically we a kind of structure in the hypothesis space.
+Odd numbered hypothesis are comparing citizenship level groups
+(immigrant vs born citizen or non-citizen vs citizen) while holding level of
+education constant. For hypothesis $H^{37},H^{39},H^{41},H^{43}$ which correspond
+to Card's conclusion; that within education groups, immigrants and natives
+are imperfect substitutes with a large but finite elasticity of substitution;
+we fail to reject the null hypothesis that that $\s=1$.
+
+
+
+
+\begin{figure}[H]
+    \centering
+    \caption{Slope Parameter}
+    \includegraphics[width=.7\textwidth]{slopeFinal.png}
+
+    \label{slo}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Elasticity of Substitution}
+    \includegraphics[width=.7\textwidth]{elasticityFinal.png}
+
+    \label{est}
+\end{figure}
+
+
 
 \section{Appendix: My code}
 
@@ -486,8 +540,7 @@ linear model. These data are saved in a \textit{hypothesis/} directory.
 \textit{analysis.R} reads the hypothesis and performs the multiple testing
 corrections.
 
-\listoffigures
-\listoftables
+
 \begin{thebibliography}
 \small
     \bibitem{C} Card, David. 2009. "Immigration and Inequality." American Economic Review, 99(2): 1-21. http://www.aeaweb.org/articles?id=10.1257/aer.99.2.1

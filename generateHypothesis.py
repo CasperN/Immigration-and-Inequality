@@ -136,7 +136,7 @@ def write_for_R(g,i,cat,hyp):
             res.append(r)
     res = pd.DataFrame(res, columns = ['ys','xs'])
     res.to_csv('hypothesis/h'+ str(i+1) + '.csv')
-    print(hyp)
+    print('\nH' + str(i+1) + ': ' + hyp + '\n')
 
 def generateHypothesisAndData(datafile):
     data = pd.read_csv(datafile)
@@ -155,5 +155,5 @@ if __name__ == '__main__':
             params = it.product(splitOverGen(),holdingConstantGen(),(True,False))
             hyps = [nameHypothesis(*x) for x in params]
             for i,h in enumerate(hyps):
-                f.write('H'+str(i+1)+': '+h+'\n')
+                f.write('\nH' + str(i+1) + ': ' + hyp + '\n')
         generateHypothesisAndData(sys.argv[1])

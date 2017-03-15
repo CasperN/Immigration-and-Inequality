@@ -21,7 +21,8 @@ def pMap(func, argGen, star=False):
 def extractColumns(filename,year):
     """
     Get relevant columns from the csv file and return a pandas dataframe
-    with year alongside
+    with year alongside. Also remap education, employment, and immigration
+    status to values required for my analysis
     """
     print('\t\textracting: ' + filename)
     df = pd.read_csv(filename,usecols = ['WAGP','ST','CIT','NATIVITY','AGEP','SCHL','ESR','PUMA','DECADE'] )
@@ -34,12 +35,16 @@ def extractColumns(filename,year):
     laborforce = df['ESR'] != 6
     df = df[laborforce]
     # Get employed or not, lose the extra info
-    df['EMPLOYED'] = (df['ESR'] != 3)
+    df['EMPLOYED'] = (df['ESR'] != 3) # 3 is unemployed
     df.drop('ESR',axis=1, inplace=True)
-    # IMM ~ boolean, immigrant or not based on CIT = 4 or 5
-    naturalized = df['CIT'] == 4
-    not_citizen = df['CIT'] == 5
-    df['IMM'] = naturalized | not_citizen
+    # remap CIT so 1: non citizen, 2: naturalized citizen, 3: born citizen
+    cit_map = {1:3, 2:3, 3:3, 4:2, 5:1} # See data dict
+    df['CIT'].replace(cit_map)
+    # remap SCHL so 1: less than HS educ, 2: HS equiv, 3: College educ
+    schl_map =      {i:1 for i in range(1, 16)}     # < hs educs
+    schl_map.update({i:2 for i in range(16,20)}) # hs equiv
+    schl_map.update({i:3 for i in range(20,25)}) # college educ
+    df['SCHL'].replace(schl_map)
     return df
 
 def get_dataframes():

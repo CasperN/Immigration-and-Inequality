@@ -435,13 +435,16 @@ substitution split along the following lines;
 
 fifteen more hypothesis splitting across education while fixing citizenship
 and twelve more hypothesis splitting across citizenship while fixing education.
-I choose these 37 hypothesis. Though with three citizenship categories and three
-education categories there are $2^3 * 2^3 = 64$ ways to split the data
+I choose these 37 hypothesis since they seem the most natural to me.
+
+With a set of 3 education levels there are 7 ways to include education levels
+in groups. Analogously for citizenship levels. Hence there are 49 potential groups.
+That means when comparing the elasticity of substitution between groups there are
+$${(2^3-1) * (2^3-1) \choose 2} = {49\choose 2} = 1176$$
+ways to split the data
 of varying degrees of reasonability. The combinatoric explosion gets exponentially
 worse if I also chose to include race, decade of entry, geography, or any other
 potential categories.
-
-
 
 \section{Conclusion}
 

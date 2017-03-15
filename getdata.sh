@@ -35,5 +35,7 @@ mkdir csvs
 mv *.csv csvs
 mv csvs/ACSdataTrain.csv .
 mv csvs/ACSdataTest.csv .
+mv csvs/ACSdataFull.csv .
+
 echo
 echo Done!

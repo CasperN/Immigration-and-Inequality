@@ -289,11 +289,10 @@ This article is my final project in ECON 209: Honors Econometrics.
 It is a partial replication and extension of David Card's
 \textit{Immigration and Inequality}. Like in Card's paper, I estimate the
 elasticity of substitution between education and income groups using a constant
-elasticity of substitution (CES) model and linear regression. I also attempt to
-estimate log-wages with a linear model and produce coverage intervals for the
-coefficients. Special attention on selective inference and multiple testing
+elasticity of substitution (CES) model and linear regression.
+Special attention on selective inference and multiple testing
 corrections will be applied to bound the false discovery rate and false coverage
-rates in the respective models.
+rates.
 
 
 \renewcommand{\baselinestretch}{0.75}\normalsize
@@ -335,10 +334,11 @@ I download the 1-year ACS surveys from 2007-2015 however only few columns
 are used. I identified the following variables as relevant from the
 \textit{PUMS Data Dictionary 2011-2015}. I map these variables from the
 values in the raw data into units usable by my models.
-Between the 8 year there are 27'725'196 observations.
-Though after I filter for working age (18-60) there are 15'553'882 rows.
-The procedure and models are developed a random 1\% sample then run
-on the remaining 99\%.
+Between the 8 years there are 27'725'196 people surveyed.
+Though after I filter for working age (18-60) and those in the labor force
+there are 11'994'312 people.
+The procedure and models are developed a random 5\% sample then run
+on the remaining 95\%.
 
 
 \begin{table}[H]
@@ -389,7 +389,7 @@ natives, intuitively it should do so for immigrants as well due to similar
 effects on marginal productivity.
 
 
-\section{Elasticity of Substitution}
+\section{Estimating Elasticity of Substitution Between Groups}
 
 Assuming a 1 sector framework with a Constant Elasticity of Substitution (CES)
 model
@@ -400,16 +400,48 @@ model
 
 Where $J$ and $K$ are separate groups (for example high school educational
 equivalents and college equivalents), $\r = 1-\frac1\s$ and $\s$ is the
-between group elasticity of substitution. This is estimated by
+between group elasticity of substitution.
+$L$ is the labor input, estimated by $1-$ the unemployment rate within the group.
+This is estimated by
 the linear model
 
 \begin{equation}
     \log \frac{w_j}{w_k} = \log\frac{\a_j}{\a_k} - \frac 1\s \log\frac{L_j}{L_k}
 \end{equation}
 
-Where we observe
+We observe labor inputs, and wages then use a linear model to estimate
+$\s = \frac 1{\b_1}$. Our data has sufficient detail to know if the observed
+is a non-citizen, naturalized citizen, or born citizen (the former two are
+considered immigrants). We can also distinguish years of education, which state
+and even public use micro-data area code (By the census definition).
+The latter designate areas of 100'000 or more population.
+Each data point in the CES model is over one micro-data area in one year.
+Given the granularity of my data there are many potential hypothesis attempting
+to find the elasticity of
+substitution split along the following lines;
 
-\section{Log-Linear Wage Model}
+\begin{enumerate}
+    \item Immigrant vs native
+    \item Non-citizen vs citizen
+    \item Non-citizen vs naturalized citizen
+    \item Non-citizen vs born citizen
+    \item Naturalized citizens vs born citizens
+    \item less than high school educated vs only high school educated
+    \item less than high school educated vs college educated
+    \item less than high school educated vs at least high school educated
+    \item high school educated vs college educated
+    \item less than college educated vs college educated.
+\end{enumerate}
+
+fifteen more hypothesis splitting across education while fixing citizenship
+and twelve more hypothesis splitting across citizenship while fixing education.
+I choose these 37 hypothesis. Though with three citizenship categories and three
+education categories there are $2^3 * 2^3 = 64$ ways to split the data
+of varying degrees of reasonability. The combinatoric explosion gets exponentially
+worse if I also chose to include race, decade of entry, geography, or any other
+potential categories.
+
+
 
 \section{Conclusion}
 

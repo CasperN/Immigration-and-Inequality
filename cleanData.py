@@ -26,8 +26,21 @@ def extractColumns(filename,year):
     print('\t\textracting: ' + filename)
     df = pd.read_csv(filename,usecols = ['WAGP','ST','CIT','NATIVITY','AGEP','SCHL','ESR','PUMA','DECADE'] )
     df['YEAR'] = year
+    # filter out children and old people
     workingAge = (18 <= df['AGEP']) & (df['AGEP'] <= 60)
-    return df[workingAge]
+    df = df[workingAge]
+    # filter out people not in labor force
+    assert not any(df['ESR'].isnull()), 'ESR Nulls mean <16 yr olds'
+    laborforce = df['ESR'] != 6
+    df = df[laborforce]
+    # Get employed or not, lose the extra info
+    df['EMPLOYED'] = (df['ESR'] != 3)
+    df.drop('ESR',axis=1, inplace=True)
+    # IMM ~ boolean, immigrant or not based on CIT = 4 or 5
+    naturalized = df['CIT'] == 4
+    not_citizen = df['CIT'] == 5
+    df['IMM'] = naturalized | not_citizen
+    return df
 
 def get_dataframes():
     '''
@@ -53,10 +66,11 @@ if __name__ == '__main__':
 
         print('\tConcatinating data')
         full = pd.concat(frames)
-        print('\tdata has ' + str(len(full)) + 'rows')
-        mask = np.random.random(len(full)) < .01
+        np.random.seed(1234)
+        mask = np.random.random(len(full),) < .05
         test  = full[~mask]
         train = full[ mask]
+        print('\t Writing data to file')
         for df, s in [(train,'Train'),(test,'Test'),(full,'Full')]:
-            print('\tWriting '+s' data to file')
+            print('\t\tWriting '+s+' data. It has '+str(len(df))+' rows')
             df.to_csv(sys.argv[1] + s + '.csv')

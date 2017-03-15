@@ -1,5 +1,6 @@
 # ignore data files
 Data/
+*.csv
 
 # Ignore OSX finder file thingy
 .DS_Store
